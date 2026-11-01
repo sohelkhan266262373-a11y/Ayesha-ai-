@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayesha AI</title>
+
+<style>
+body {
+    margin: 0;
+    background: #101020;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 30px 15px;
+}
+
+h1 {
+    color: #c69cff;
+    margin-top: 50px;
+}
+
+p {
+    color: #ccc;
+}
+
+button {
+    background: #a45cff;
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 30px;
+    font-size: 17px;
+    margin: 10px;
+}
+
+input {
+    padding: 15px;
+    width: 85%;
+    border-radius: 20px;
+    border: none;
+    margin-top: 30px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>💜 Ayesha AI</h1>
+
+<p>Assalamualaikum! Main Ayesha hoon.</p>
+<p>Aapki personal AI assistant.</p>
+
+<input id="message" placeholder="Mujhse kuch bhi puchiye">
+
+<br>
+
+<button onclick="speak()">🎤 Bolo</button>
+<button onclick="reply()">Send</button>
+
+<p id="answer"></p>
+
+<script>
+function speak() {
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = "hi-IN";
+
+    recognition.onresult = function(event) {
+        document.getElementById("message").value =
+        event.results[0][0].transcript;
+    };
+
+    recognition.start();
+}
+
+function reply() {
+    let msg = document.getElementById("message").value;
+    document.getElementById("answer").innerText =
+    "Aapne kaha: " + msg;
+}
+</script>
+
+</body>
+</html>
