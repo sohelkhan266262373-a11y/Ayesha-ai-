@@ -73,12 +73,39 @@ function speak() {
     recognition.start();
 }
 
-function reply() {
-    let msg = document.getElementById("message").value;
-    document.getElementById("answer").innerText =
-    "Aapne kaha: " + msg;
-}
-</script>
+    async function reply() {
+  let msg = document.getElementById("message").value.trim();
+  let box = document.getElementById("answer");
+
+  if (!msg) {
+    box.innerText = "Pehle kuch likho.";
+    return;
+  }
+
+  box.innerText = "Ayesha soch rahi hai...";
+
+  try {
+    let response = await fetch("https://ayesha-ai.onrender.com/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: msg })
+    });
+
+    let data = await response.json();
+
+    if (!response.ok) throw new Error("Server error");
+
+    let answer = data.output?.flatMap(x => x.content || [])
+      .find(x => x.type === "output_text")?.text;
+
+    box.innerText = answer || "Jawab nahi mila.";
+
+  } catch (error) {
+    box.innerText = "Connection error: " + error.message;
+  }
+    }
 
 </body>
 </html>
